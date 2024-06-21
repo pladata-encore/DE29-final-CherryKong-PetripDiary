@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/KOO-96/FinalProject/blob/main/image/1%EB%B2%88.png" width="80%">
+  <img src="./img/1%EB%B2%88.png" width="100%">
   <h4>⭐🍒CHERRY-KONG🫛⭐</h4>
 
 </div>
@@ -62,9 +62,7 @@
 
 - 입력한 이미지
 <br>
-
-![image](./img/djfsf.jpg)
-
+<img src="./img/djfsf.jpg" alt="image" width="300" height="200">
 <br>
 
 - 이미지 등록
@@ -83,19 +81,23 @@
 
 
 
-<h2>아키텍처 (사진첨부)</h2>
+<h2>아키텍처</h2>
 <dev align=center>
 <h3>Main</h3>
 <src img = "">
+
+![recImage](./img/제목%20없는%20다이어그램-메인.drawio.png)
 <dev>
 
 <dev align=center>
 <dev align=center>
 <h3>model</h3>
 <src img = "">
+
+![recImage](./img/제목%20없는%20다이어그램-모델아키텍처.drawio.png)
 <dev>
 
-<h2>기술 스택 (사진첨부)</h2>
+<h2>기술 스택</h2>
 
 <strong>Language</strong>
 <br>
@@ -134,6 +136,3 @@
 
 - merge data의 모든 상호들을 구글 검색하여 이미지 크롤링
 
-
-
-<h2>후기
