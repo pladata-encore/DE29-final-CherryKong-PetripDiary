@@ -25,7 +25,7 @@
 
 <h2>ERD</h2>
 
-![erd](./src/main/resources/static/data/erd.png)
+![erd](./img/erd.png)
 
 <h2>기능(페이지) 소개</h2>
 
@@ -42,19 +42,19 @@
 
 <h3>- 메인페이지</h3>
 
-![mainpage](./src/main/resources/static/data/mainpage.png)
+![mainpage](./img/mainpage.png)
 
 <br>
 
 <h3>1. 지역 + 태그 기반 추천</h3>
 
 - [ 전북특별자치도 김제시 카페/캠핑장 ] 으로 검색 결과
-![recPlan](./src/main/resources/static/data/recplan1.png)
+![recPlan](./img/recplan1.png)
 
 <br>
 
 - 나의 여행코스 생성 예시
-![course](./src/main/resources/static/data/recplan1(1).png)
+![course](./img/recplan1(1).png)
 
 <br> 
 
@@ -63,17 +63,17 @@
 - 입력한 이미지
 <br>
 
-![image](./src/main/resources/static/data/djfsf.jpg)
+![image](./img/djfsf.jpg)
 
 <br>
 
 - 이미지 등록
-![recImage](./src/main/resources/static/data/recimage1.png)
+![recImage](./img/recimage1.png)
 
 <br>
 
 - 추천 결과
-![recImage](./src/main/resources/static/data/recimage1(1).png)
+![recImage](./img/recimage1(1).png)
 
 <br>
 
