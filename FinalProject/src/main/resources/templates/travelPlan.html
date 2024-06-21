@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>travelPlan</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
+    
+    <link rel="stylesheet" href="\static\header.css"/>
+    <link rel="stylesheet" href="\static\travelPlan.css"/>
+</head>
+<body>
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=639473c2abdc7c1d1c60ce785da265eb&libraries=services,clusterer"></script>
+    
+    {{>fragments/header}}
+    <div class="travel-plan-container">
+        <div class="search-rec-place">
+            <!-- <strong>여행 장소 추천 받기</strong> -->
+            <div class="travel-plan-search-box">
+                <div class="search2">
+                    <h5>지역별 검색</h5>
+                    <div class="select2_box">
+                        <select name="city" class="select" id="citySelect" onchange="updateDistricts()">
+                            <option disabled selected>지역 선택</option>
+                            <option value="서울특별시">서울특별시</option>
+                            <option value="부산광역시">부산광역시</option>
+                            <option value="대구광역시">대구광역시</option>
+                            <option value="인천광역시">인천광역시</option>
+                            <option value="광주광역시">광주광역시</option>
+                            <option value="대전광역시">대전광역시</option>
+                            <option value="울산광역시">울산광역시</option>
+                            <option value="세종특별자치시">세종특별자치시</option>
+                            <option value="경기도">경기도</option>
+                            <option value="강원특별자치도">강원특별자치도</option>
+                            <option value="충청북도">충청북도</option>
+                            <option value="충청남도">충청남도</option>
+                            <option value="전북특별자치도">전북특별자치도</option>
+                            <option value="전라남도">전라남도</option>
+                            <option value="경상북도">경상북도</option>
+                            <option value="경상남도">경상남도</option>
+                            <option value="제주특별자치도">제주특별자치도</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="search2">
+                    <h5>시군구별 검색</h5>
+                    <div class="select2_box">
+                        <select name="district" class="select" id="districtSelect">
+                            <option disabled selected>구/시 선택</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="search2">
+                    <h5>테마 확인</h5>
+                    <div class="select2_box_theme">
+                        <label><input type="checkbox" name="theme" value="레포츠"> 레포츠</label>
+                        <label><input type="checkbox" name="theme" value="관광지"> 관광지</label>
+                        <label><input type="checkbox" name="theme" value="카페"> 카페</label>
+                        <label><input type="checkbox" name="theme" value="베이커리"> 베이커리</label>
+                        <label><input type="checkbox" name="theme" value="캠핑장"> 캠핑장</label>
+                        <label><input type="checkbox" name="theme" value="물놀이"> 물놀이</label>
+                        <label><input type="checkbox" name="theme" value="계곡"> 계곡</label>
+                        <label><input type="checkbox" name="theme" value="힐링"> 힐링</label>
+                        <label><input type="checkbox" name="theme" value="휴식"> 휴식</label>
+                        <label><input type="checkbox" name="theme" value="실내"> 실내</label>
+                        <label><input type="checkbox" name="theme" value="실외"> 실외</label>
+                    </div>
+                </div>
+            </div>
+            <div class="search3">
+                <button onclick="sendToFastAPI(event); return false;">여행 장소 추천 받기</button>
+            </div>
+        </div>
+        <div id="map-list-container">
+            <div id="map-container">
+                <div id="map">                
+                    <button type="button" id="current-loc-btn" onclick="getCurrentLocation()">현재 위치로 이동</button>
+                    <button type="button" id="show-all-place-marker" onclick="getCurrentLocation()" style="top: 30px;">전체 장소 표시</button>
+                </div>
+            </div>
+            <div id="list-container">
+                <ul class="list">
+                    <h3 style="text-align: center;">내 위치 주변 여행지</h3>
+                    <h5 style="text-align: center;">마커를 클릭해보세요! 장소의 상세 정보가 나타납니다.</h5>
+                    <ul id="place-list"> 
+                        <li></li>
+                    </ul>                    
+                </ul>
+            </div>
+        </div>    
+        <div id="course-container">
+            <h3 style="text-align: center;">나의 여행 코스</h3>
+            <input type="text" id="course-title" name="course-title" placeholder="여행 코스 제목을 입력해주세요." required>            
+            <div id="print-course-title"></div>  
+            <ul id="course-list"></ul>
+            <div class="btns">
+                <!-- <button type="button" onclick="route()" style="float: right;" class="route-btn">길찾기</button> -->
+                <button type="button" onclick="onclickPrint()" style="width: 150px;" class="print-btn">인쇄</button>
+                <button type="button" onclick="save()" style="width: 150px;" class="save-btn">마이페이지에 저장</button>
+            </div>
+            </form>
+
+        </div>        
+    </div>
+
+    <script>
+        let currentUsername = "{{#username}}{{username}}{{/username}}"
+        let mapContainer = document.getElementById('map');
+        let mapOption = {
+            center: new kakao.maps.LatLng(37, 127),   // 지도의 중심 좌표
+            level: 13    // 지도 확대 레벨
+        };
+
+        // 지도 생성
+        let map = new kakao.maps.Map(mapContainer, mapOption);
+        getCurrentLocation();
+
+        let message = '';
+        // 정보창 생성
+        let infowindow = new kakao.maps.InfoWindow({
+            content: message,
+            removable: true 
+        });
+
+        let overlay = new kakao.maps.CustomOverlay({
+            map: map,
+            yAnchor: 1,
+            zIndex: 1
+        });
+
+        // 마커 클러스터 생성
+        let clusterer = new kakao.maps.MarkerClusterer({
+            map: map,
+            averageCenter: true,  // 클러스터의 위치를 장소들의 좌표의 평균 좌표로 설정한다.
+            minClusterSize: 10,  // 10 미만의 레벨에서는 클러스터링을 하지 않는다.
+            disableClickZoom: true  // 클러스터를 클릭했을 떄 지도가 확대되지 않도록 한다.
+        });
+
+        // 주소-좌표를 변환할 객체를 생성한다.
+        let geocoder = new kakao.maps.services.Geocoder();
+
+        // 현재 위치를 받아오는 함수
+        function getCurrentLocation() {
+            if(navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    let coords = new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+                    // 마커 이미지 정보
+                    let currentLocImgSrc = "/static/data/current_location_icon.png"; // 마커 이미지 주소
+                    let currentLocImgSize = new kakao.maps.Size(22, 26);   // 마커 이미지 크기
+                    // 마커 이미지를 생성한다.
+                    let markerImg = new kakao.maps.MarkerImage(currentLocImgSrc, currentLocImgSize);
+                    
+                    // 마커를 지도에 표시한다.
+                    let currentMarker = new kakao.maps.Marker({
+                        map: map,
+                        position: coords,
+                        image: markerImg
+                    });
+
+                    let callback = function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            let current_address = result[0].region_1depth_name;
+
+                            let currentAddress = {
+                                'currentAddress': JSON.stringify(current_address)
+                            };
+
+                            fetch('http://127.0.0.1:8000/planning', {
+                                method:'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(currentAddress)
+                            })
+                                .then(response => response.json())
+                                .then(places => {
+                                    let markers = [];   // 생성한 마커를 저장한다.
+                                    let remainingRequests = places.length;   // 주소 정보를 가져올 데이터의 개수
+                                    
+                                    console.log(remainingRequests);
+
+                                    for (let i = 0; i < places.length; i++) {
+                                        let place = places[i];
+
+                                        if (!place.address || place.address.trim() === "") {
+                                            remainingRequests--; // 1개의 데이터를 확인했으므로 데이터 -1
+                                            checkAndAddMarkers();   // 데이터 처리 완료됐는지 확인 후 마커를 클러스터러에 추가한다.
+                                            return; // 공백인 경우 다음 데이터를 확인한다.
+                                        }
+
+                                        geocoder.addressSearch(place.address, function (result, status) {
+                                            // 정상적으로 검색이 완료됐으면
+                                            if (status === kakao.maps.services.Status.OK) {
+                                                // 변환한 좌표
+                                                let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                                                if (navigator.geolocation) {
+                                                    // geolocation으로 현재 위치를 받는다.
+                                                    navigator.geolocation.getCurrentPosition(function(position) {
+                                                        // 받아온 현재 위치 저장한다.
+                                                        let currentCoords = new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                                                        let polyline = new kakao.maps.Polyline();
+
+                                                        // 현재 위치와 장소 사이의 거리
+                                                        polyline.setPath([currentCoords, coords]);
+
+                                                        // console.log(polyline.getLength());
+                                                        
+                                                        // 현재 위치에서 15km 이내의 장소들만 지도에 표시한다.
+                                                        if(polyline.getLength() < 50000) {
+                                                            let marker = new kakao.maps.Marker({
+                                                                position: coords
+                                                            });
+                                                                
+                                                            // 추천 여행지 리스트에 장소를 추가한다.
+                                                            let li = document.createElement("li");
+                                                            let divPlaceName = document.createElement("div");
+                                                            let pPlaceInfo = document.createElement("p");
+                                                            let img = document.createElement("img");
+
+                                                            // 생성한 마커를 배열에 추가한다.
+                                                            markers.push(marker);
+
+                                                            if (!place.short_info || place.short_info === "정보없음") {
+                                                                place.short_info = "해당 장소의 정보를 찾을 수 없습니다."
+                                                            };
+                                                            // 마커에 클릭 이벤트를 등록한다.
+                                                            kakao.maps.event.addListener(marker, 'click', () => {
+                                                                if (overlay.getVisible()) {
+                                                                    overlay.setMap(null);
+
+                                                                    // 기존에 리스트에 있던 장소 이름과 사진을 제거한다.
+                                                                    let placeList = document.getElementById('place-list');
+                                                                    let placeListChildren = placeList.children;
+                                                                    
+                                                                    if (placeListChildren.length > 0) {
+                                                                        for (let i = 0; i < placeListChildren.length; i++) {
+                                                                            placeList.removeChild(placeListChildren[i]);
+                                                                        }
+                                                                    }
+                                                                }
+
+                                                                divPlaceName.textContent = place.name;
+                                                                divPlaceName.className = "place-name";
+                                                                pPlaceInfo.textContent = place.short_info;
+                                                                pPlaceInfo.className = "place-info";
+                                                                img.src = "https://pet-place-bucket.s3.ap-northeast-2.amazonaws.com/" + place.name + '.jpg';
+                                                                li.append(divPlaceName, pPlaceInfo, img);
+                                                                document.querySelector('#place-list').appendChild(li);
+                                                                
+                                                                message = 
+                                                                        '   <div id="info">'+ 
+                                                                        '       <strong>' + place.name + '</strong>' + "</br>" +
+                                                                        '       <strong>' + "\"" + place.short_info + "\"" + '</strong>' +
+                                                                        '       <p>' + place.address + '</p>'+ 
+                                                                        '   </div>' + '</br></br></br></br>' + 
+                                                                        '   <button type="button" id="add-btn" onclick="addPlace()">추가하기</button>' +
+                                                                        '   <button type="button" id="close-btn" onclick="closeInfo()">닫기</button>' ;
+                                                                overlay.setContent(message);
+                                                                overlay.setPosition(coords);  
+                                                                overlay.setMap(map);
+                                                                map.setCenter(coords);
+                                                                map.setLevel(7);
+                                                            });
+
+                                                            divPlaceName.addEventListener('click', () => {
+                                                                if (overlay.getVisible()) {
+                                                                    overlay.setMap(null);
+                                                                }
+                                                                message = 
+                                                                        '   <div id="info">'+ 
+                                                                        '       <strong>' + place.name + '</strong>' + "</br>" +
+                                                                        '       <strong>' + place.short_info + '</strong>' +
+                                                                        '       <p>' + "\""+ place.address + "\""+ '</p>'+ 
+                                                                        '   </div>' + '</br></br></br></br>' + 
+                                                                        '   <button type="button" id="add-btn" onclick="addPlace()">추가하기</button>' +
+                                                                        '   <button type="button" id="close-btn" onclick="closeInfo()">닫기</button>' ;
+                                                                overlay.setPosition(coords);  
+                                                                overlay.setMap(map);
+                                                                map.setCenter(coords);
+                                                                map.setLevel(7);
+                                                            });
+                
+                                                            map.setLevel(12);
+                                                        }
+                                                    })
+                                                }
+                                            }
+
+                                            remainingRequests--;    // 데이터 처리 했으므로 개수 -1
+                                            checkAndAddMarkers();   // 데이터 처리 완료됐는지 확인 후 마커를 클러스터러에 추가한다.
+                                        });
+                                    }
+
+                                    function checkAndAddMarkers() {
+                                        if (remainingRequests === 0) {  // 데이터 개수 = 0 : 모든 데이터를 확인
+                                                clusterer.addMarkers(markers);  // 마커를 클러스터러에 추가한다.
+                                            }
+                                    }
+
+                                    kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
+
+                                        // 현재 지도 레벨에서 1레벨 확대한 레벨
+                                        let level = map.getLevel()-1;
+
+                                        // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다
+                                        map.setLevel(level, {anchor: cluster.getCenter()});
+                                    });
+                            })
+                                .catch(error => console.error('Error fetching data:', error));
+
+                        }
+                    }
+                            
+                    clusterer.clear();
+                    searchDetailAddrFromCoords(coords, callback);
+                    map.setCenter(coords);
+                    map.setLevel(12);
+
+                    kakao.maps.event.addListener(currentMarker, 'click', () => {
+                        clusterer.clear();
+                        searchDetailAddrFromCoords(coords, callback);
+                        map.setCenter(coords);
+                        map.setLevel(12);
+                    });               
+                });
+            }
+        }
+        
+
+
+
+
+        //     const getIp = async () =>
+        //         await fetch("https://geolocation-db.com/json/")
+        //             .then((res) => res.json())
+        //             .then((res) => {
+        //                 const nowIp = res["IPv4"];
+        //                 // console.log(res["IPv4"]);
+        //                 fetch(`http://ip-api.com/json/${nowIp}`)
+        //                 .then((res) => res.json())
+        //                 .then((res) => {
+        //                     let lat = res["lat"];
+        //                     let lng = res["lon"];
+                            
+        //     getIp();
+        // }
+
+        // 정보창(커스텀 오버레이)를 닫는 함수
+        function closeInfo() {
+            // 정보창을 숨긴다.
+            overlay.setMap(null);
+        }
+
+        function searchDetailAddrFromCoords(coords, callback) {
+            // 좌표로 법정동 상세 주소 정보를 요청
+            geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
+        }     
+
+        function addPlace() {
+            if (currentUsername) {
+                // 리스트에서 목록을 가져온다.
+                let liElements = document.querySelectorAll('#course-list li');
+                // 리스트에 넣을 내용(장소 이름)을 지도의 정보창에서 가져와서 content에 저장한다.
+                let placeName = document.querySelector('#info strong').textContent;   
+                let placeAddress = document.querySelector('#info p').textContent;     
+                let exists = false; // 목록 내용의 중복을 확인하기 위한 변수
+                
+                // 리스트에 중복 내용이 있는지 검사한다.
+                for (let i = 0; i < liElements.length; i++) {
+                    // 리스트 내용의 첫번째 자식 요소(장소 이름)과 content가 같으면
+                    if (liElements[i].firstChild && liElements[i].firstChild.textContent === placeName) {
+                        exists = true;  // 중복이 존재한다.
+                        break;
+                    } 
+                }
+                
+                if (exists) {   // 중복이 존재하면 중복 알림창 생성
+                    alert("이미 존재하는 코스입니다.");
+                } else {    // 중복이 존재하지 않으면
+                    let li = document.createElement("li");  // li 요소를 생성한다.
+                    let p_name = document.createElement("p");
+                    let p_address = document.createElement("p");
+                    let img = document.createElement("img");
+                    // 삭제 버튼 생성
+                    let delBtn = document.createElement("button");  
+
+                    delBtn.className = "del-btn"; // 클래스를 할당하여 여러 개의 삭제 버튼이 생성되었을 때 올바르게 동작하도록 함
+                    delBtn.textContent = "삭제";
+                    delBtn.style.float = "right";
+                    delBtn.onclick = function() {
+                        this.parentNode.remove();
+                    };
+                    img.src = "https://pet-place-bucket.s3.ap-northeast-2.amazonaws.com/" + placeName + '.jpg';
+                    p_name.textContent = placeName
+                    p_name.className = "course-place-name";
+                    p_address.textContent = placeAddress;
+                    p_address.className = "course-place-address";
+
+                    // li.textContent = placeName ;   // 장소의 이름과 주소를 리스트에 추가한다.
+                    li.append(p_name, delBtn, p_address, img);
+                    document.querySelector('#course-list').appendChild(li);  // '나의 여행 코스'에 추가한다.
+
+                    p_name.addEventListener('click', () => {
+                        geocoder.addressSearch(p_address.textContent, function (result, status) {
+                            // 정상적으로 검색이 완료됐으면
+                            if (status === kakao.maps.services.Status.OK) {
+                                // 변환한 좌표
+                                let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                                if (navigator.geolocation) {
+                                    // geolocation으로 현재 위치를 받는다.
+                                    navigator.geolocation.getCurrentPosition(function(position) {
+                                        let marker = new kakao.maps.Marker({
+                                            position: coords
+                                        });
+
+                                        if (overlay.getVisible()) {
+                                            overlay.setMap(null);
+                                        }
+                                        
+                                        message =
+                                        '   <div id="info">'+ 
+                                        '       <strong>' + p_name.textContent + '</strong>' + "</br>" +'<p>'+ p_address.textContent + '</p>'+ '</div>' + '</br></br></br>' + 
+                                        '   <button type="button" id="add-btn" onclick="addPlace()">추가하기</button>' +
+                                        '   <button type="button" id="close-btn" onclick="closeInfo()">닫기</button>';
+                                        overlay.setContent(message);
+                                        overlay.setPosition(coords);  
+                                        overlay.setMap(map);
+                                        map.setCenter(coords);
+                                        map.setLevel(5);
+                                    })
+                                }
+                            }
+                        })
+                    })
+                }
+            } else {
+                alert("로그인 후 이용할 수 있습니다.");
+            };
+        }
+
+        
+        function onclickPrint() {
+            if (currentUsername) {
+                let coursetitle = document.getElementById('course-title').value;
+                if (!coursetitle) {
+                    alert("여행 코스 제목을 입력해주세요.");
+                } else {
+                    window.onbeforeprint = function() {
+                        document.getElementById('print-course-title').innerText = coursetitle;
+
+                        $(".header").css("display", "none");
+                        $("#list-container").css("display", "none");
+                        $("#course-container > h3").css("display", "none");
+                        $("#course-container").css("margin", "20px 0");
+                        $(".search-rec-place").css("display", "none");
+                        $("input").css("display", "none");
+                        $("#print-course-title").css("display", "block");
+                        $("#course-list li").css("margin", "20px");
+                        $("#course-list li img").css("display", "block");
+                        $("#course-list li img").css("margin", "17px");
+                        $('#course-list li p.course-place-address').css("display", "block");
+                        $("button").css("display", "none");
+                    };
+
+                    window.onafterprint = function() {
+                        $(".header").css("display", "block");
+                        $("#list-container").css("display", "flex");
+                        $("#course-container > h3").css("display", "block");
+                        $("#course-container").css("margin", "40px 80px");
+                        $(".search-rec-place").css("display", "flex");
+                        $("input").css("display", "inline-block");
+                        $("#print-course-title").css("display", "none");
+                        $("#course-list li").css("margin", "10px");
+                        $("#course-list li img").css("display", "none");
+                        $('#course-list li p.course-place-address').css("display", "none");
+                        $("button").css("display", "inline");
+                    };
+
+                    window.print();
+
+                }
+  
+            } else {
+                alert("로그인 후 이용할 수 있습니다.");
+            }
+        }
+    </script>  
+
+    <script>
+        async function save() {
+            const courseListItems = document.querySelectorAll('#course-list li p.course-place-name');
+            const courses = Array.from(courseListItems).map(item => item.textContent);
+            const coursetitle = document.getElementById('course-title').value;  
+
+            const travelPlan = {
+                coursetitle: coursetitle,
+                courses: JSON.stringify(courses)
+            };
+
+            if (!coursetitle) {
+                alert("여행 코스 제목을 입력해주세요.");
+            } else if (JSON.stringify(courses).length === 2) {
+                alert("여행 코스에 장소를 추가해주세요.");
+            } else {
+                try {
+                const response = await fetch('https://www.petwme.com/api/saveCourses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(travelPlan)
+                });
+                console.log(travelPlan);
+                const result = await response.text();
+                alert(result);
+            } catch (error) {
+                console.error('Error: ', error);
+                alert('저장에 실패했습니다.');
+            }
+            }
+
+
+        }
+    </script>
+    <script src="\static\function.js"></script> 
+    <script src="/static/search.js"></script>
+    <script src="/static/sendToFastAPI.js"></script>   
+</body>
+</html>

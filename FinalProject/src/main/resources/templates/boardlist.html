@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 목록</title>
+    <link rel="stylesheet" href="/static/header.css">
+    <style>
+        .container {
+            padding: 20px;
+            max-width: 100%;
+            white-space: nowrap;
+            overflow-x: auto;
+        }
+
+        .button-container {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .sort-buttons {
+            margin-bottom: 20px;
+        }
+
+        .sort-buttons button {
+            margin-right: 10px;
+        }
+
+        .search-container {
+            padding: 10px 35px;
+            text-align: right;
+        }
+
+        .card-container {
+            display: inline-flex;
+        }
+
+        .card {
+            width: 300px;
+            margin-right: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            white-space: normal;
+        }
+
+        .card-content {
+            padding: 5px 15px;
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            cursor: pointer;
+        }
+
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .write-link {
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .scroll-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: #ecc870de;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        /* 왼쪽 화살표 버튼 */
+        .scroll-btn-left {
+            left: 0;
+        }
+
+        /* 오른쪽 화살표 버튼 */
+        .scroll-btn-right {
+            right: 0;
+        }
+        .container1 {
+            padding: 10px 25px 0px 29px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        select, input {
+            font-size: 1rem;
+            font-family: inherit;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid rgba(0, 0, 0, 0.366);
+        }
+        .write-link {
+            font-size: 1.2rem;
+            font-family: inherit;
+            padding: 3px 15px;
+            background-color: #ecc870de;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .submit {
+            font-size: 1.2rem;
+            font-family: inherit;
+            padding: 4px 15px;
+            background-color: #ecc870de;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .sort-buttons {
+            padding: 5px 0px 5px 30px;
+            display: flex;
+        }
+        .sort-buttons button{
+            font-size: 1.2rem;
+            font-family: inherit;
+            padding: 3px 13px;
+            background-color: #ecc870de;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .sort-buttons button.active {
+            font-size: 1.2rem;
+            font-family: inherit;
+            padding: 3px 13px;
+            background-color: #ec707cde;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .search {
+            padding-left: 20px;
+            text-align: left;
+        }
+        .card-content p {
+            font-size: 1.2rem;
+        }
+        .card strong {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    {{>fragments/header}}
+    <div class="search-container">
+        <form action="/boardlist" method="get">
+            <select name="searchType">
+                <option value="title" {{#searchTypeIsTitle}}selected{{/searchTypeIsTitle}}>제목</option>
+                <option value="dogname" {{#searchTypeIsDogname}}selected{{/searchTypeIsDogname}}>강아지 이름</option>
+                <option value="breed" {{#searchTypeIsBreed}}selected{{/searchTypeIsBreed}}>강아지 종</option>
+                <option value="userid" {{#searchTypeIsUserid}}selected{{/searchTypeIsUserid}}>사용자ID</option>
+            </select>
+            <input type="text" name="keyword" placeholder="검색어를 입력하세요" value="{{keyword}}">
+            <button class="submit" type="submit">검색</button>
+        </form>
+    </div>
+    <div class="container1">
+        <button class="write-link" onclick="checkLoginAndRedirect()">나의 강아지 자랑하기</button>
+        <div class="sort-buttons">
+            <button data-sort="latest" onclick="sortBy('latest')" {{#sortTypeIsLatest}}class="active"{{/sortTypeIsLatest}}>최신순</button>
+            <button data-sort="likes" onclick="sortBy('likes')" {{#sortTypeIsLikes}}class="active"{{/sortTypeIsLikes}}>좋아요순</button>
+            <button data-sort="views" onclick="sortBy('views')" {{#sortTypeIsViews}}class="active"{{/sortTypeIsViews}}>조회수순</button>
+        </div>
+    </div>
+    
+
+    <div class="container">
+        <div class="card-container">
+            <!-- 게시글 목록 표시 -->
+            {{#boardPage}}
+            <div class="card">
+                <div class="card-content">
+                    <h3><a href="/boarddetail/{{boardid}}">{{title}}</a></h3>
+                    <a href="/boarddetail/{{boardid}}">
+                        <img src="{{dogphotoUrl}}" alt="Dog Photo">
+                    </a>
+                    <p><strong>이름:</strong> {{dogname}}</p>
+                    <p><strong>종:</strong> {{breed}}</p>
+                    <p><strong>좋아요:</strong> {{likes}}</p>
+                    <p><strong>조회수:</strong> {{views}}</p>
+                    <p><strong>작성일시:</strong> {{time}}</p>
+                </div>
+            </div>
+            {{/boardPage}}
+        </div>
+    </div>
+    <button class="scroll-btn scroll-btn-left" onclick="scrollToLeft()">&#10094;</button>
+    <button class="scroll-btn scroll-btn-right" onclick="scrollToRight()">&#10095;</button>
+    <script src="/static/function.js"></script>
+    <script>
+        function checkLoginAndRedirect() {
+            var username = "{{#username}}{{username}}{{/username}}"; 
+            if (username) {
+                window.location.href = "/board";
+            } else {
+                alert("게시글 작성을 위해서는 로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+                window.location.href = "/loginPage";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const sortType = urlParams.get('sortType');
+
+            if (sortType) {
+                const activeButton = document.querySelector(`.sort-buttons button[data-sort="${sortType}"]`);
+                if (activeButton) {
+                    activeButton.classList.add('active');
+                }
+            }
+        });
+
+        function sortBy(sortType) {
+            const buttons = document.querySelectorAll('.sort-buttons button');
+            buttons.forEach(button => button.classList.remove('active'));
+        
+            const clickedButton = document.querySelector(`.sort-buttons button[data-sort="${sortType}"]`);
+            if (clickedButton) {
+                clickedButton.classList.add('active');
+            }
+        
+            const searchType = document.querySelector('select[name="searchType"]').value;
+            const keyword = document.querySelector('input[name="keyword"]').value;
+            window.location.href = `/boardlist?searchType=${searchType}&keyword=${keyword}&sortType=${sortType}`;
+        }
+        
+
+        function scrollToLeft() {
+            document.querySelector('.container').scrollBy({
+                left: -1000, // 한 번에 300px씩 좌측으로 스크롤
+                behavior: 'smooth' // 부드러운 스크롤
+            });
+        }
+
+        function scrollToRight() {
+            document.querySelector('.container').scrollBy({
+                left: 1000, // 한 번에 300px씩 우측으로 스크롤
+                behavior: 'smooth' // 부드러운 스크롤
+            });
+        }
+    </script>
+</body>
+</html>

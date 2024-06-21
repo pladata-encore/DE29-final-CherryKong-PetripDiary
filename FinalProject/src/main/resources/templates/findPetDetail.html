@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>글 상세</title>
+    <link rel="stylesheet" href="/static/header.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            color: #555;
+            font-weight: bold;
+        }
+        input[type="file"] {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: black;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 20px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .button:hover {
+            background: rgba(0, 0, 0, 0.503);
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .form-left, .form-right {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-right textarea {
+            height: 100%;
+            resize: none;
+        }
+
+        .detail-item {
+            margin-bottom: 15px;
+        }
+
+        .detail-item label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .detail-item #title1 {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .dog-photo {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+        }
+
+        .action-buttons button, #aa {
+            margin-right: 10px;
+            padding: 8px 20px;
+            background-color: black;
+            font-family: inherit;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .action-buttons button:hover, #aa:hover{
+            background-color: grey;
+        }
+
+        img, #dog-photo {
+            width: 100%;
+            height: 200px; /* 또는 원하는 높이로 지정하세요 */
+            object-fit: cover; /* 또는 contain 등으로 조정하세요 */
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body onload="initializePage()">
+    {{>fragments/header}}
+    <div class="container">
+        {{#findPetDetail}}
+        <div class="detail-item">
+            <span id ="title1">{{title}}</span>
+        </div>
+        <div class="form-grid">
+            <div class="form-left">
+                <div class="detail-item">
+                    <label>작성자:</label>
+                    <span>{{nickname}}({{userid}})</span>
+                </div>
+                <div class="detail-item">
+                    <label>작성일시:</label>
+                    <span>{{time}}</span>
+                </div>
+                <div class="detail-item">
+                    <label>주인 연락처:</label>
+                    <span>{{contact}}</span>
+                </div>
+            </div>
+            <div class="form-right">
+                <div class="detail-item">
+                    <div>
+                        <label>강아지 이름:</label>
+                        <span>{{petName}}</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div>
+                        <label>강아지 종:</label>
+                        <span>{{petBreed}}</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div>
+                        <label>실종 장소:</label>
+                        <span>{{lostPlace}}</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div>
+                        <label>실종 일시:</label>
+                        <span>{{lostTime}}</span>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+        
+        <div>
+            <img class="dog-photo" src="{{dogphotoUrl}}" alt="Dog Photo">
+            {{#dogphotoUrl2}}
+            <img class="dog-photo" src="{{dogphotoUrl2}}" alt="Dog Photo">
+            {{/dogphotoUrl2}}
+            {{#dogphotoUrl3}}
+            <img class="dog-photo" src="{{dogphotoUrl3}}" alt="Dog Photo">
+            {{/dogphotoUrl3}}
+            {{#dogphotoUrl4}}
+            <img class="dog-photo" src="{{dogphotoUrl4}}" alt="Dog Photo">
+            {{/dogphotoUrl4}}
+        </div>
+        <div class="detail-item">
+            <p>{{text}}</p>
+        </div>
+        <div class="action-buttons">
+            <a href="/findPetList"><button id="aa">목록</button></a>
+            <button id="aa" onclick="deleteBoard('{{boardId}}','{{userid}}')">삭제</button>
+        </div>
+        {{/findPetDetail}}
+    </div>
+
+    <script>
+        var currentUsername = "{{#username}}{{username}}{{/username}}";
+        function deleteBoard(boardId, userId) {
+            if (currentUsername !== userId) {
+                alert("게시글 작성자만 삭제할 수 있습니다.");
+                return;
+            }
+
+            if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+                fetch(`/findPetDelete/${boardId}`, {
+                    method: 'GET' 
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    alert("게시글이 삭제되었습니다.");
+                    window.location.href = "/findPetList"; // 게시글 목록으로 리디렉션
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("게시글 삭제에 실패하였습니다.");
+                });
+            }
+        }
+    </script>
+    <script src="/static/function.js"></script>  
+</body>
+</html>

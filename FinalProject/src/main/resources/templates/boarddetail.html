@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>글 상세</title>
+    <link rel="stylesheet" href="/static/header.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .user-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            color: #555;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="date"], textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        input[type="file"] {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: black;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 20px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .button:hover {
+            background: rgba(0, 0, 0, 0.503);
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .form-left, .form-right {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-right textarea {
+            height: 100%;
+            resize: none;
+        }
+
+        .detail-item {
+            margin-bottom: 15px;
+        }
+
+        .detail-item label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .detail-item #title1 {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .dog-photo {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+        }
+
+        .comments-section {
+            margin-top: 30px;
+        }
+
+        .comments-section h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .comments-section .comment-list {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        .comments-section .comment {
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .comments-section .comment p {
+            margin: 0;
+        }
+
+        .comments-section .comment button {
+            background-color: #ff6666;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 5px;
+            margin-left: 1px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: inherit;
+        }
+
+        .comments-section .comment button:hover {
+            background-color: #ff4c4c;
+        }
+
+        .comments-section .comment-form {
+            margin-top: 20px;
+        }
+
+        .comments-section .comment-form textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border-radius: 5px;
+            resize: none;
+            font-family: inherit;
+        }
+
+        .comments-section .comment-form button {
+            margin-top: 10px;
+            padding: 8px 20px;
+            background-color: black;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: inherit;
+        }
+
+        .comments-section .comment-form button:hover {
+            background-color: black;
+        }
+
+        .action-buttons button, #aa {
+            margin-right: 10px;
+            padding: 8px 20px;
+            background-color: black;
+            font-family: inherit;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .action-buttons button:hover, #aa:hover{
+            background-color: grey;
+        }
+
+        .action-buttons button, #likeButton {
+            margin-right: 10px;
+            padding: 7px 7px;
+            background-color: hotpink;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .action-buttons button:hover, #likeButton:hover {
+            background-color: pink;
+        }
+
+        img, #dog-photo {
+            width: 100%;
+            height: 200px; /* 또는 원하는 높이로 지정하세요 */
+            object-fit: cover; /* 또는 contain 등으로 조정하세요 */
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body onload="initializePage()">
+    {{>fragments/header}}
+    <div class="container">
+        {{#boardDetail}}
+        <div class="detail-item">
+            <span id="title1">{{title}}</span>
+        </div>
+        <div class="form-grid">
+            <div class="form-left">
+                <div class="detail-item">
+                    <label>작성자:</label>
+                    <span>{{nickname}}({{userid}})</span>
+                </div>
+                <div class="detail-item">
+                    <label>작성일시:</label>
+                    <span>{{time}}</span>
+                </div>
+                <div class="detail-item">
+                    <label>좋아요:</label>
+                    <button id="likeButton" onclick="checkLoginAndLike('{{boardid}}', '{{dogname}}')"> ♥ {{likes}} ♥ </button>
+                </div>
+                <div class="detail-item">
+                    <label>조회수:</label>
+                    <span id="viewCount">{{views}}</span>
+                </div>
+            </div>
+            <div class="form-right">
+                <div>
+                    <div class="detail-item">
+                        <label>강아지 이름:</label>
+                        <span>{{dogname}}</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="detail-item">
+                        <label>강아지 종:</label>
+                        <span>{{breed}}</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="detail-item">
+                        <label>강아지 생일:</label>
+                        <span>{{dogbirth}}</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="detail-item">
+                        <label>강아지 몸무게:</label>      
+                        <span>{{dogweight}}kg</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <img class="dog-photo" src="{{dogphotoUrl}}" alt="Dog Photo">
+            {{#dogphotoUrl2}}
+            <img class="dog-photo" src="{{dogphotoUrl2}}" alt="Dog Photo">
+            {{/dogphotoUrl2}}
+            {{#dogphotoUrl3}}
+            <img class="dog-photo" src="{{dogphotoUrl3}}" alt="Dog Photo">
+            {{/dogphotoUrl3}}
+            {{#dogphotoUrl4}}
+            <img class="dog-photo" src="{{dogphotoUrl4}}" alt="Dog Photo">
+            {{/dogphotoUrl4}}
+        </div>
+        <div class="detail-item">
+            <p>{{text}}</p>
+        </div>
+        <div class="action-buttons">
+            <a href="/boardlist"><button id="aa">목록</button></a>
+            <button id="aa" onclick="deleteBoard('{{boardid}}','{{userid}}')">삭제</button>
+            <button id="aa" onclick="updateBoard('{{boardid}}','{{userid}}')">수정</button>
+        </div>
+        {{/boardDetail}}
+        <div class="comments-section">
+            <label>댓글</label>
+                {{#comments}}
+                <div class="comment">
+                    <p><strong>{{nickname}}({{userId}})</strong>: {{commentText}}</p>
+                    <p>
+                        <small>{{commentTime}}</small>
+                        <button onclick="deleteComment('{{commentId}}', '{{userId}}')">삭제</button>
+                    </p>
+                </div>
+                {{/comments}}
+            <form action="/comments" method="post" class="comment-form">
+                <input type="hidden" name="boardId" value="{{boardDetail.boardid}}">
+                <input type="hidden" name="userId" value="{{#username}}{{username}}{{/username}}">
+                <textarea name="commentText" placeholder="댓글을 입력하세요" required></textarea>
+                <button type="submit" onclick="checkLoginAndRedirect()">댓글 작성</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var currentUsername = "{{#username}}{{username}}{{/username}}";
+
+        function checkLoginAndLike(boardId, dogName) {
+            if (currentUsername) {
+                likePost(boardId, dogName);
+            } else {
+                alert("로그인 후에 좋아요를 누르실 수 있습니다.");
+            }
+        }
+
+        function likePost(boardId, dogName) {
+            fetch(`/like/${boardId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: currentUsername
+                })
+            })
+            .then(response => response.text())
+            .then(result => {
+                if (result === "true") {
+                    alert('우리 ' + dogName + ' 귀엽죠?' + ' 좋아해주셔서 감사합니다!');
+                    location.reload();
+                } else {
+                    alert("이미 좋아요를 누른 사용자입니다.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        window.onload = function() {
+            increaseViewCount('{{boardid}}');
+        };
+    
+        function increaseViewCount(boardId) {
+            fetch(`/increase-view/${boardId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                console.log('View count increased successfully');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function deleteBoard(boardId, userId) {
+            if (currentUsername !== userId) {
+                alert("게시글 작성자만 삭제할 수 있습니다.");
+                return;
+            }
+            if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+                fetch(`/deleteBoard/${boardId}`, {
+                    method: 'GET'
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    alert("게시글이 삭제되었습니다.");
+                    window.location.href = "/boardlist"; // 게시글 목록으로 리디렉션
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("게시글 삭제에 실패하였습니다.");
+                });
+            }
+        }
+
+        function updateBoard(boardId, userId) {
+            if (currentUsername !== userId) {
+                alert("게시글 작성자만 수정할 수 있습니다.");
+                return;
+            }
+            if (confirm("게시글을 수정하시겠습니까?")) {
+                window.location.href = `/boardedit/${boardId}`;
+            }
+        }
+
+        function checkLoginAndRedirect() {
+            if (currentUsername) {
+                window.location.href = "/comments";
+            } else {
+                alert("댓글 작성을 위해서는 로그인이 필요합니다.");
+            }
+        }
+
+        function deleteComment(commentId, userId) {
+            if (currentUsername !== userId) {
+                alert("댓글 작성자만 삭제할 수 있습니다.");
+                return;
+            }
+            if (confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
+                fetch(`/deleteComment/${commentId}`, {
+                    method: 'GET'
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    alert("댓글이 삭제되었습니다.");
+                    location.reload(); 
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("댓글 삭제에 실패하였습니다.");
+                });
+            }
+        }
+    </script>
+
+    <script src="/static/function.js"></script>  
+</body>
+</html>

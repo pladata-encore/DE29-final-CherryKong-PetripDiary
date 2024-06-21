@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>우리집 강아지 자랑하기</title>
+    <link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/static/board.css">
+</head>
+<body onload="initializePage()">
+    {{>fragments/header}}
+    <div class="container">
+        <form id="postForm" action="boardsave" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <label for="title">제목</label>
+            <input type="text" id="title1" name="title" maxlength="20" required>
+            
+            <div class="form-grid">
+                <div class="form-left">
+
+                    <label for="dogname">강아지 이름</label>
+                    <input type="text" id="dogname" name="dogname" maxlength="30" required>
+                    <div id="dognameError" class="error-message"></div>
+                    
+                    <label for="breed">강아지 종</label>
+                    <input type="text" id="breed" name="breed" maxlength="30" required>
+                    <div id="breedError" class="error-message"></div>
+                    
+                    <label for="dogbirth">강아지 생일</label>
+                    <input type="date" id="dogbirth" name="dogbirth" required>
+                    
+                    <label for="dogweight">몸무게(kg)</label>
+                    <input type="text" id="dogweight" name="dogweight" required>
+                    <div id="dogweightError" class="error-message"></div>
+                </div>
+                
+                <div class="form-right">
+                    <label for="text">내용</label>
+                    <textarea id="text" name="text" required></textarea>
+                </div>
+            </div>
+            
+            <label for="dogphoto">강아지 사진1 (대표사진, 필수입력)</label>
+            <input type="file" id="dogphoto" name="dogphoto" required onchange="previewImage(event, 'preview1')">
+            <div id="preview1" class="preview-images"></div>
+
+            <label for="dogphoto2">강아지 사진2</label>
+            <input type="file" id="dogphoto2" name="dogphoto2" onchange="previewImage(event, 'preview2')">
+            <div id="preview2" class="preview-images"></div>
+
+            <label for="dogphoto3">강아지 사진3</label>
+            <input type="file" id="dogphoto3" name="dogphoto3" onchange="previewImage(event, 'preview3')">
+            <div id="preview3" class="preview-images"></div>
+
+            <label for="dogphoto4">강아지 사진4</label>
+            <input type="file" id="dogphoto4" name="dogphoto4" onchange="previewImage(event, 'preview4')">
+            <div id="preview4" class="preview-images"></div>
+            
+            <button type="submit" class="button">작성</button>
+        </form>
+    </div>
+
+    <script>
+        function previewImage(event, previewId) {
+            var files = event.target.files;
+            var preview = document.getElementById(previewId);
+            preview.innerHTML = '';
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var container = document.createElement('div');
+                    container.classList.add('image-container');
+
+                    var img = document.createElement('img');
+                    img.src = e.target.result;
+                    container.appendChild(img);
+
+                    var removeButton = document.createElement('button');
+                    removeButton.classList.add('remove-button');
+                    removeButton.innerHTML = '&times;';
+                    removeButton.onclick = function() {
+                        container.remove();
+                        event.target.value = '';
+                    };
+                    container.appendChild(removeButton);
+
+                    preview.appendChild(container);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function validateForm() {
+            var isValid = true;
+
+            var dogname = document.getElementById('dogname').value;
+            if (dogname.length > 30) {
+                document.getElementById('dognameError').textContent = '강아지 이름은 최대 30글자까지 입력 가능합니다.';
+                isValid = false;
+            } else {
+                document.getElementById('dognameError').textContent = '';
+            }
+
+            // Validate breed
+            var breed = document.getElementById('breed').value;
+            if (breed.length > 30) {
+                document.getElementById('breedError').textContent = '강아지 종은 최대 30글자까지 입력 가능합니다.';
+                isValid = false;
+            } else {
+                document.getElementById('breedError').textContent = '';
+            }
+
+            // Validate dog weight
+            var dogweight = document.getElementById('dogweight').value;
+            if (isNaN(dogweight) || parseFloat(dogweight) <= 0) {
+                document.getElementById('dogweightError').textContent = '몸무게는 kg 없이 숫자(소수 가능)로 입력해주세요.';
+                isValid = false;
+            } else {
+                document.getElementById('dogweightError').textContent = '';
+            }
+
+            return isValid;
+        }
+    </script>
+</body>
+</html>

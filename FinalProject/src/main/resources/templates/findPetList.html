@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 목록</title>
+    <link rel="stylesheet" href="/static/header.css">
+    <style>
+        .container {
+            padding: 20px;
+            max-width: 100%;
+            white-space: nowrap;
+            overflow-x: auto;
+        }
+        .button-container {
+            padding-left: 20px;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .write-link {
+            font-size: 1.2rem;
+            font-family: inherit;
+            padding: 3px 15px;
+            background-color: #ecc870de;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .submit {
+            font-size: 1.2rem;
+            font-family: inherit;
+            padding: 4px 15px;
+            background-color: #ecc870de;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .search {
+            padding-left: 20px;
+            text-align: left;
+        }
+        .card-container {
+            display: inline-flex;
+        }
+        .card {
+            width: 300px;
+            display: inline-block;
+            margin-right: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-content {
+            padding: 5px 15px;
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            cursor: pointer;
+        }
+        .card strong {
+            background-color: #f2f2f2;
+        }
+
+        .scroll-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: #ecc870de;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        /* 왼쪽 화살표 버튼 */
+        .scroll-btn-left {
+            left: 0;
+        }
+
+        /* 오른쪽 화살표 버튼 */
+        .scroll-btn-right {
+            right: 0;
+        }
+        select, input {
+            font-size: 1rem;
+            font-family: inherit;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid rgba(0, 0, 0, 0.366);
+        }
+        .container1 {
+            padding: 23px 25px 0px 29px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-content p {
+            font-size: 1.2rem;
+        }
+
+    </style>
+</head>
+<body>
+    {{>fragments/header}}
+    <div class="container1">
+            <button class="write-link" onclick="checkLoginAndRedirect()">강아지를 찾아주세요</button>
+            <form action="/findPetList" method="get">
+                <select name="searchType">
+                    <option value="title" {{#searchTypeIsTitle}}selected{{/searchTypeIsTitle}}>제목</option>
+                    <option value="petName" {{#searchTypeIsPetName}}selected{{/searchTypeIsPetName}}>강아지 이름</option>
+                    <option value="petBreed" {{#searchTypeIsPetBreed}}selected{{/searchTypeIsPetBreed}}>강아지 종</option>
+                    <option value="lostPlace" {{#searchTypeIsLostPlace}}selected{{/searchTypeIsLostPlace}}>실종지역</option>
+                    <option value="userid" {{#searchTypeIsUserid}}selected{{/searchTypeIsUserid}}>사용자ID</option>
+                </select>
+                <input type="text" name="keyword" placeholder="검색어를 입력하세요" value="{{keyword}}">
+                <button class="submit" type="submit">검색</button>
+            </form>
+        
+    </div>
+    <div class="container">
+        <div class="card-container">
+            {{#findPetList}}
+            <div class="card">
+                <div class="card-content">
+                    <h3><a href="/findPetDetail/{{boardId}}">{{title}}</a></h3>
+                    <a href="/findPetDetail/{{boardId}}">
+                        <img src="{{dogphotoUrl}}" alt="Dog Photo">
+                    </a>
+                    <p><strong>이름:</strong> {{petName}}</p>
+                    <p><strong>종:</strong> {{petBreed}}</p>
+                    <p><strong>실종지역:</strong> {{lostPlace}}</p>
+                    <p><strong>실종일시:</strong> {{lostTime}}</p>
+                    <p><strong>작성일시:</strong> {{time}}</p>
+                </div>
+            </div>
+            {{/findPetList}}
+        </div>
+    </div>
+    <button class="scroll-btn scroll-btn-left" onclick="scrollToLeft()">&#10094;</button>
+    <button class="scroll-btn scroll-btn-right" onclick="scrollToRight()">&#10095;</button>
+    <script src="/static/function.js"></script>
+    <script>
+        function checkLoginAndRedirect() {
+            var username = "{{#username}}{{username}}{{/username}}"; 
+            if (username) {
+                window.location.href = "/findPet";
+            } else {
+                alert("게시글 작성을 위해서는 로그인이 필요합니다.");
+                window.location.href = "/findPetList";
+            }
+        }
+
+        function scrollToLeft() {
+            document.querySelector('.container').scrollBy({
+                left: -500, // 한 번에 300px씩 좌측으로 스크롤
+                behavior: 'smooth' // 부드러운 스크롤
+            });
+        }
+
+        function scrollToRight() {
+            document.querySelector('.container').scrollBy({
+                left: 500, // 한 번에 300px씩 우측으로 스크롤
+                behavior: 'smooth' // 부드러운 스크롤
+            });
+        }
+    </script>
+</body>
+</html>

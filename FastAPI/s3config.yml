@@ -1,0 +1,5 @@
+service_name: "s3"
+region_name: "ap-northeast-2"
+access_key: ""
+secret_key: ""
+bucket_name: ""

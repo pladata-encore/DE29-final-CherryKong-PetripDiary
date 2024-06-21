@@ -1,0 +1,208 @@
+h2 {
+    margin-top: 55px;
+}
+h4 {
+    font-size: unset;
+    display: block;
+    margin-block-start: 1.33em;
+    margin-block-end: 1.33em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
+}
+body {
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.dog-profile-table td {
+    padding: 10px;
+}
+
+.dog-photo {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.info-table {
+    width: 100%;
+    margin-top: 20px; /* 사진과 정보 테이블 사이의 간격 */
+    border-collapse: collapse;
+}
+
+.info-table th, .info-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.info-table th {
+    background-color: #f2f2f2;
+}
+
+.container {
+    padding-bottom: 100px;
+}
+
+.dog-profile-table {
+    max-width: 300px;
+    margin: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-table th, .info-table th {
+    width: 25%;
+}
+
+.profile-table, .dog-profile-table, .info-table, .my-boardlist, .my-course-list {
+    width: 100%;
+    border-collapse: collapse;
+}
+.my-boardlist th, .my-boardlist td {
+    padding: 10px;
+}
+.profile-table {
+    max-width: 50%;
+}
+
+.profile-table th, .profile-table td,
+.dog-profile-table th, .dog-profile-table td 
+.dog-profile-table th, .dog-profile-table td,
+.my-boardlist th, .my-boardlist td,
+.my-course-list th, .my-course-list td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.profile-table th, .dog-profile-table th, .my-boardlist th, .my-course-list th {
+    background-color: #f2f2f2;
+}
+
+.info-table th, .info-table td {
+    border: none;
+    text-align: left;
+}
+.info-cell {
+    width: 50%;
+}
+
+.info-table {
+    width: 100%;
+}
+.profile-header, .dog-profile-header {
+    justify-content: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+
+.dog-photo {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.photo-cell {
+    width: 250px;
+    height: 250px;
+    overflow: hidden;
+}
+
+.my-boardlist {
+    margin-top: 20px;
+}
+
+.my-boardlist td a {
+    text-decoration: none;
+    color: #333;
+}
+
+.my-boardlist td a:hover {
+    text-decoration: underline;
+}
+
+.my-boardlist th:first-child, .my-boardlist td:first-child {
+    width: 80px;
+    text-align: center;
+}
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.mypage .box:hover {
+    background-color: #e9ecef;
+}
+
+
+#mypage-title h2 {
+    font-size: 3rem;
+    color: white;
+    margin: 0;
+    line-height: 250px;
+    background-color: #130058;
+}
+.mypage {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    position: relative;
+}
+
+.mypage .box {
+    font-size: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    flex: 1;
+    line-height: 50px;
+}
+
+.box {
+    padding: 20px;
+}
+
+.btn-primary {
+    border-color: #ecc870de;
+    background-color: #ecc870de;
+}
+.btn-secondary {
+    border-color: #ecc870de;
+    background-color: #ecc870de;
+}
+.btn-primary:hover {
+    border-color: #c9ab60de;
+    background-color: #c9ab60de;
+}
+.btn-secondary:hover {
+    border-color: #c9ab60de;
+    background-color: #c9ab60de;
+}
+.del-btn {
+    margin: 3px;
+    padding: 5px 7px;
+    border: 0;
+    border-radius: 5px;
+    background-color: #ecc870de;
+    cursor: pointer;
+    color: white;
+}
+
+.del-btn:hover {
+    background-color: #c9ab60de;
+    transition: background-color 0.2s ease;
+}

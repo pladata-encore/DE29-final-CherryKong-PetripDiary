@@ -1,0 +1,230 @@
+
+
+.travel-plan-container {
+    box-sizing: border-box;
+    padding: 0 15px 20px 0;
+}
+
+.search-rec-place {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.travel-plan-search-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.select2_box_theme {
+    display: flex;
+    flex-wrap: wrap;
+    width: 300px;
+    justify-content: center;
+}
+
+.search3 button {
+    margin-top: 58px;
+    padding: 8px 30px;
+    background-color: #ecc870de;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search3 button:hover {
+    background-color: #c9ab60de;
+}
+
+select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.366);
+}
+
+#map-list-container {
+    margin: 0 80px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    z-index: 1;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 580px;
+}
+
+#map-container {
+    width: 40%;
+}
+
+#map {
+    width: 100%; 
+    height: 100%;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+#current-loc-btn, #show-all-place-marker {
+    margin: 6px;
+    float: left;
+    position: absolute;
+    z-index: 1000;
+    width: 115px;
+}
+
+#list-container {
+    padding: 0;
+    margin: 0;
+    width: 60%;
+}
+
+#course-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border-radius: 10px;
+    padding: 0;
+    margin: 40px 80px; 
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.course-button {
+    position: absolute;
+    right: 10px; /* 오른쪽 여백 */
+    margin-bottom: 10px;
+}
+
+.course-button:nth-child(1) {
+    top: 10px; 
+}
+
+.course-button:nth-child(2) {
+    top: 50px; 
+}
+
+ul.list {
+    padding: 0;
+    margin: 0;
+}
+
+#course-list {
+    list-style-type: disc;
+}
+
+#place-list {
+    margin: 5px;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    height: auto;
+    overflow: auto;
+}
+
+#course-list li {
+    padding: 5px;
+    margin: 0 50px;
+    list-style-type: decimal;
+    position: relative;
+    cursor: pointer;
+    font-size: 25px;
+}
+
+#course-list li p {
+    margin: 5px;
+}
+
+#course-list li p.course-place-address {
+    display: none;
+}
+
+#place-list li {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    list-style-type: decimal;
+    margin-top: 10px;
+    width: fit-content;
+}
+
+.place-name {
+    cursor: pointer;
+    font-size: 25px;
+    padding-bottom: 10px;
+}
+
+#place-list li img {
+    width: 200px;
+    height: 150px;
+}
+
+#course-list li img {
+    display: none;
+    width: 200px;
+    height: 200px;
+}
+
+#info {
+    position: absolute;
+    background-color: white;
+}
+
+.del-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 11px;
+}
+
+#info p {
+    margin: 0;
+}
+
+.btns {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 20px;
+}
+
+#current-loc-btn, #show-all-place-marker, #add-btn, #close-btn, .del-btn, .route-btn, .print-btn, .save-btn {
+    margin: 3px;
+    padding: 5px 7px;
+    border: 0;
+    border-radius: 5px;
+    background-color: #ecc870de;
+    cursor: pointer;
+    color: white;
+    
+}
+
+#current-loc-btn:hover, #show-all-place-marker:hover,  #add-btn:hover, #close-btn:hover, .del-btn:hover, .route-btn:hover, .print-btn:hover, .save-btn:hover {
+    background-color: #c9ab60de;
+    transition: background-color 0.2s ease;
+}
+
+#course-title {
+    float: left;
+    width: 300px;
+    height: 15px;
+    align-self: center;
+    text-align: center;
+}
+
+#print-course-title {
+    display: none;
+    margin: 40px;
+    font-size: 24px;
+    font-weight: 100;
+    text-align: center;
+}

@@ -1,0 +1,99 @@
+<header class="header">
+    <div id="title-box">
+        <h1 id="title"><a href="/index">강아지랑 놀러 가장</a></h1>
+
+        {{^username}}
+        <div id="top-right">
+            <a href="/loginPage"><button id="button1">로그인</button></a>
+            <a href="/joinPage"><button id="button2">회원가입</button></a>
+        </div>
+        {{/username}}
+
+        {{#username}}
+        <div id="top-right">
+            <a href="/myPage"><button id="button1">마이페이지</button></a>
+            <a href="/logout"><button id="button2">로그아웃</button></a>
+        </div>
+        {{/username}}
+
+        <ul id="nav-bar">
+            <li><h3><a href="#">≡</a></h3>
+                <ul id="nav-content">
+                    {{^username}}
+                    <div id="not-login">
+                        <a href="/loginPage">로그인</a>
+                        <a href="/joinPage">회원가입</a>
+                    </div>
+                    {{/username}}
+
+                    {{#username}}
+                    <div id="login">
+                        <a href="/myPage">마이페이지</a>
+                        <a href="/logout">로그아웃</a>
+                    </div>
+                    {{/username}}
+                    <li class="nav-content">                        
+                        <a href="/travelInform"><h4>반려견 동반<br>여행 정보</h4></a>
+                    </li>
+                    <li class="nav-content">
+                            <a href="/boardlist"><h4>반려견 자랑</h4></a>
+                    </li>
+                    <li class="nav-content">
+                        <a href="/findPetList"><h4>반려견 찾기</h4></a>
+                    </li>
+                    <li class="nav-content">                        
+                        <a href="/travelPlan"><h4>여행 코스<br>만들기</h4></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <nav>
+        <!-- 순서 X, 목록 기호 X -->
+        <ul class="topbar">
+            <div class="content">
+                <h3>
+                    <a href="/index">홈</a>
+                </h3>
+            </div>
+            <li class="content">
+                <h3>
+                    <a href="/travelInform">반려견 동반 여행 정보</a>
+                </h3>
+            </li>
+            <li class="content">
+                <h3>
+                    <a href="/boardlist">반려견 자랑</a>
+                </h3>
+            </li>
+            <li class="content">
+                <h3>
+                    <a href="/findPetList">반려견 찾기</a>
+                </h3>
+            </li>
+            <li class="content">
+                <h3>
+                    <a href="/travelPlan">여행 코스 만들기</a>
+                </h3>
+            </li>
+            <ul id="nav-bar">
+                <li><h3><a href="#">≡</a></h3>
+                    <ul id="nav-content">
+                        <li class="nav-content">                        
+                            <a href="/travelInform"><h4>반려견 동반 여행 정보</h4></a>
+                        </li>
+                        <li class="nav-content">
+                                <a href="/boardlist"><h4>반려견 자랑</h4></a>
+                        </li>
+                        <li class="nav-content">
+                            <a href="/findPetList"><h4>반려견 찾기</h4></a>
+                        </li>
+                        <li class="nav-content">                        
+                            <a href="/travelPlan"><h4>여행 코스 만들기</h4></a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </ul>
+    </nav>
+</header>

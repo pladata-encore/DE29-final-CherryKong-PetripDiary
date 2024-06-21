@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 수정</title>
+    <link rel="stylesheet" href="/static/header.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .user-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            color: #555;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="date"], textarea {
+            width: calc(100% - 22px); /* Ensure the width matches the width of text areas */
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        input[type="file"] {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: black;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 20px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .button:hover {
+            background: rgba(0, 0, 0, 0.503);
+        }
+        .preview-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .preview-images .image-container {
+            position: relative;
+        }
+        .preview-images img {
+            max-width: 100px;
+            max-height: 100px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .preview-images .remove-button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .form-left, .form-right {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-right textarea {
+            height: 100%;
+            resize: none;
+        }
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body onload="initializePage()">
+    {{>fragments/header}}
+    <div class="container">
+        <form id="postForm" action="/boardupdate/{{boardDetail.boardid}}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <label for="title">제목</label>
+            <input type="text" id="title1" name="title" value="{{boardDetail.title}}" required>
+            <div class="form-grid">
+                <div class="form-left">
+
+                    <label for="dogname">강아지 이름</label>
+                    <input type="text" id="dogname" name="dogname" value="{{boardDetail.dogname}}" maxlength="30" required>
+                    <div id="dognameError" class="error-message"></div>
+                    
+                    <label for="breed">강아지 종</label>
+                    <input type="text" id="breed" name="breed" value="{{boardDetail.breed}}" maxlength="30" required>
+                    <div id="breedError" class="error-message"></div>
+                    
+                    <label for="dogbirth">강아지 생일</label>
+                    <input type="date" id="dogbirth" name="dogbirth" value="{{boardDetail.dogbirth}}" required>
+                    
+                    <label for="dogweight">몸무게(kg)</label>
+                    <input type="text" id="dogweight" name="dogweight" value="{{boardDetail.dogweight}}" required>
+                    <div id="dogweightError" class="error-message"></div>
+                </div>
+                
+                <div class="form-right">
+                    <label for="text">내용</label>
+                    <textarea id="text" name="text" required>{{boardDetail.text}}</textarea>
+                </div>
+            </div>
+
+            <label for="dogphoto">강아지 사진1 (대표사진, 필수입력)</label>
+            <input type="file" id="dogphoto" name="dogphoto" onchange="previewImage(event, 'preview1')">
+            <div id="preview1" class="preview-images">
+                {{#boardDetail.dogphotoUrl}}
+                <div class="image-container">
+                    <input type="hidden" id="dogphotourl" name="dogphotoUrl" value="{{.}}">
+                    <img src="{{boardDetail.dogphotoUrl}}" alt="Dog Photo 1" class="dog-photo">
+                    <button class="remove-button" onclick="removeImage('preview1', 'dogphotourl')">&times;</button>
+                </div>
+                {{/boardDetail.dogphotoUrl}}
+            </div>
+            <div id="dogphotoError" class="error-message"></div>
+
+
+            <label for="dogphoto2">강아지 사진2</label>
+            <input type="file" id="dogphoto2" name="dogphoto2" onchange="previewImage(event, 'preview2')">
+            <div id="preview2" class="preview-images">
+                {{#boardDetail.dogphotoUrl2}}
+                <div class="image-container">
+                    <input type="hidden" id="dogphotourl2" name="dogphotoUrl2" value = "{{.}}">
+                    <img src="{{boardDetail.dogphotoUrl2}}" alt="Dog Photo 2" class="dog-photo">
+                    <button class="remove-button" onclick="removeImage('preview2', 'dogphotourl2')">&times;</button>
+                </div>
+                {{/boardDetail.dogphotoUrl2}}
+            </div>
+
+            <label for="dogphoto3">강아지 사진3</label>
+            <input type="file" id="dogphoto3" name="dogphoto3" onchange="previewImage(event, 'preview3')">
+            <div id="preview3" class="preview-images">
+                {{#boardDetail.dogphotoUrl3}}
+                <div class="image-container">
+                    <input type="hidden" id="dogphotourl3" name="dogphotoUrl3" value = "{{.}}">
+                    <img src="{{boardDetail.dogphotoUrl3}}" alt="Dog Photo 3" class="dog-photo">
+                    <button class="remove-button" onclick="removeImage('preview3', 'dogphotourl3')">&times;</button>
+                </div>
+                {{/boardDetail.dogphotoUrl3}}
+            </div>
+
+            <label for="dogphoto4">강아지 사진4</label>
+            <input type="file" id="dogphoto4" name="dogphoto4" onchange="previewImage(event, 'preview4')">
+            <div id="preview4" class="preview-images">
+                {{#boardDetail.dogphotoUrl4}}
+                <div class="image-container">
+                    <input type="hidden" id="dogphotourl4" name="dogphotoUrl4" value = "{{.}}">
+                    <img src="{{boardDetail.dogphotoUrl4}}" alt="Dog Photo 4" class="dog-photo">
+                    <button class="remove-button" onclick="removeImage('preview4', 'dogphotourl4')">&times;</button>
+                </div>
+                {{/boardDetail.dogphotoUrl4}}
+            </div>
+            
+        <button type="submit" class="button">수정하기</button>
+        </form>
+    </div>
+
+    <script>
+        function previewImage(event, previewId) {
+            var files = event.target.files;
+            var preview = document.getElementById(previewId);
+            preview.innerHTML = '';
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var container = document.createElement('div');
+                    container.classList.add('image-container');
+
+                    var img = document.createElement('img');
+                    img.src = e.target.result;
+                    container.appendChild(img);
+
+                    var removeButton = document.createElement('button');
+                    removeButton.classList.add('remove-button');
+                    removeButton.innerHTML = '&times;';
+                    removeButton.onclick = function() {
+                        container.remove();
+                        event.target.value = '';
+                    };
+                    container.appendChild(removeButton);
+
+                    preview.appendChild(container);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeImage(previewId, inputId) {
+            var preview = document.getElementById(previewId);
+            preview.innerHTML = '';
+            var input = document.getElementById(inputId);
+            input.value = null;
+        }
+
+        function validateForm() {
+            var dogphoto = document.getElementById('dogphoto');
+            var preview1 = document.getElementById('preview1');
+            var dogphotoError = document.getElementById('dogphotoError');
+        
+            if (preview1.children.length === 0 && dogphoto.files.length === 0) {
+                dogphotoError.textContent = '대표사진을 업로드해야 합니다.';
+                return false;
+            } else {
+                dogphotoError.textContent = '';
+            }
+        
+            return true;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>여행 계획 및 이미지 페이지</title>
+<script src="/static/function.js"></script>
+<script src="/static/search.js"></script>
+<script src="/static/sendToFastAPI.js"></script>
+<script src="/static/modal.js"></script>
+<link rel="stylesheet" href="/static/header.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<meta charset="UTF-8">
+</head>
+<style>
+    @media screen and (min-width: 1200px) {
+        .container {
+            display: flex;
+        }
+    }
+    @media screen and (max-width: 1200px) {
+        .container {
+            display: grid;
+        }
+    }
+    .main {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        justify-content: space-around;
+        align-items: center;
+        background-size: cover;
+        height: 500px;
+        width: 500px;
+    }
+    body, html {
+        height: 100%;
+        margin: 0;
+    }
+    .container {
+        background-color: rgba(255, 250, 205, 0.567);
+        padding: 100px;
+        border-radius: 15px;
+        justify-content: space-evenly;
+        transition: transform 0.3s ease;
+        flex-direction: row;
+        align-items: flex-start;
+        margin: auto;
+    }
+
+    input[type=text], input[type=password] {
+        font-family: inherit;
+        width: 90%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    input[type=submit] {
+        font-family: inherit;
+        font-size: 1.2rem;
+        width: 100%;
+        background-color: #ecc870de;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        margin-top: 30px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    input[type=submit]:hover {
+        background-color: #c9ab60de;
+    }
+    .remember-me {
+        display: flex;
+        margin-bottom: 10px;
+        gap: 10px;
+    }
+    .error {
+        font-size: 14px;
+        text-align: center;
+        color: red;
+        margin-top: 10px;
+    }
+    .main-title {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 24px;
+        font-weight: bold;
+        color: black;;
+        text-decoration: none;
+    }
+    .form {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+        gap: 10px;
+    }
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+        gap: 10px;
+    }
+    @media (min-width: 600px) {
+        .form-group {
+            flex-direction: row;
+            align-items: center;
+            gap: 0;
+        }
+    }
+    @media (min-width: 600px) {
+        .form-group label, .form-group input, .form-group select {
+            flex: 1;
+        }
+    }
+    @media (min-width: 600px) {
+        .form-group label {
+            margin: 0 10px 0 0;
+        }
+    }
+    label {
+        font-size: 1.2rem;
+        display: block;
+        color: #555;
+        font-weight: 600;
+    }
+    .login {
+        border-radius: 20px;
+        padding: 55px 85px 55px 85px;
+        background-color: rgba(255, 255, 255, 0.219);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+<body onload="initializePage()">
+    {{>fragments/header}}
+    <div class="container">
+        <div class="main" id="main"></div>
+        <div class="login">
+        <h1>로그인</h1>
+        <hr>
+        <form action="/login" method="post" id="login-form">
+            <div class="form-group">
+                <label for="userid">아이디</label>
+                <input type="text" name="username" placeholder="ID" required />
+            </div>
+            <div class="form-group">
+                <label for="password">비밀번호</label>
+                <input type="password" name="password" placeholder="Password" required/>
+            </div>
+            <div class="remember-me">
+                <input type="checkbox" id="rememberMe" name="rememberMe">
+                <label for="rememberMe">아이디 저장</label>
+            </div>
+            <input type="submit" value="로그인"/>
+        </form>
+    </div>
+    </div>
+
+            
+        </div>
+    </div>
+</div>
+<script>
+    let url = window.location.search;
+    let param = new URLSearchParams(url);
+    let div = document.createElement("div");
+    let form = document.getElementById("login-form");
+
+    if (param.get("errorMessage") === "비밀번호불일치") {
+        div.textContent = "비밀번호가 일치하지 않습니다.";
+        div.className = "error";
+        form.append(div);
+    } else if (param.get("errorMessage") === "계정없음") {
+        div.textContent = "존재하지 않는 계정입니다.";
+        div.className = "error";
+        form.append(div);
+    }
+</script>
+<script src="\static\function.js"></script> 
+
+<script>
+    const urls = [];
+    for (let i = 1; i <= 27; i++) {
+        urls.push(`https://pet-profileimage-bucket.s3.ap-northeast-2.amazonaws.com/indeximage/index${i}.jpg`);
+    }
+
+    const randomIndex = Math.floor(Math.random() * urls.length);
+    const randomUrl = urls[randomIndex];
+
+    const mainElement = document.getElementById('main');
+    mainElement.style.backgroundImage = `url('${randomUrl}')`;
+</script>
+</body>
+</html>

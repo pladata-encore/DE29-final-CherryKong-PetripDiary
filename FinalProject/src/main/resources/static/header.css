@@ -1,0 +1,162 @@
+body, html {
+    height: 100%;
+    margin: 0 0 30px 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+@media (max-width: 1300px) {
+    nav {
+        display: none;
+    }
+
+    #top-right {
+        display: none;
+    }
+
+    #title-box #nav-bar {
+        display: block;
+        text-align: center;
+        position: absolute;
+        top: 2.5%;
+        right: 15px;    
+    }
+    
+} 
+
+@media (min-width: 1300px) {
+    #nav-bar {
+        display: none;
+    }
+
+    #top-right {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        gap: 20px;
+        margin: 20px 20px;
+        position: absolute;
+        top: 1%;
+        left: 80%;
+    }
+}
+
+#title {
+    margin: 25px;
+    text-align: center;
+}
+
+#nav-bar {
+    z-index: 2000;
+}
+
+#title a:hover, #title a:visited {
+    color: black;
+}
+
+#top-right button {
+    font-family: inherit;
+    width: auto;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #000;
+    font-size: 17px;
+    font-weight: bold;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+}
+
+
+.topbar {
+    display: flex;
+    justify-content: space-around;
+    border-top: 2px solid black;
+    list-style-type: none; 
+}
+div.content {
+    text-align: center;
+    width: 62.23px;
+}
+
+li.content {
+    flex: 1;
+    text-align: center;
+}
+
+a:visited {
+    color: black;
+}
+
+a:link {
+    color: black;
+    text-decoration: none;
+}
+
+li.content:hover{
+    background-color: rgba(255, 250, 205, 0.342);
+}
+#nav-bar li a {
+    position: relative;
+    display: block;
+    text-align: center;
+}
+
+#nav-content {
+    position: absolute;
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+}
+
+#nav-bar:hover #nav-content {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    background-color: #ecc97091;
+} 
+
+#nav-bar, #nav-content {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    width: 105px;
+}
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Ownglyph_meetme-Rg';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/Ownglyph_meetme-Rg.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'LeeSeoyun';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/LeeSeoyun.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body, html {
+    font-family: 'LeeSeoyun', 'Pretendard-Regular', Arial, sans-serif;
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 20px;
+}
+
+    

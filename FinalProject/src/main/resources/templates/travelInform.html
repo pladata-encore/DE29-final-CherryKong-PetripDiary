@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>travelInform</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
+    <link rel="stylesheet" href="\static\header.css"/>
+    <link rel="stylesheet" href="\static\travelInform.css"/>
+</head>
+<body onload="initializePage()">
+    {{>fragments/header}}
+    <div id="inform-title">
+        <h2 style="text-align: center;">반려견 동반 여행 정보</h2>
+    </div>
+    <ul class="inform"> 
+        <li class="box" id="inform-1">
+            <span>동물 등록제</span>
+
+        </li>
+        <li class="box" id="inform-2">
+            <span>반려견 교통 정보</span>
+
+        </li>
+        <li class="box" id="inform-3">
+            <span>준비물 체크리스트</span>
+        </li>
+    </ul>
+
+    <div class="container">
+    <div id="registration">
+        <div class="headline">
+            <div class="img type-3"></div>
+        </div>
+        
+        <ul class="reg-inform">
+            <div class="copy bgcolor-3">
+                <br>
+                <h3 style="font-size: 2.2rem;">동물 등록제란?</h3>
+                <p style="line-height: 27px; padding-left: 20px;">
+                    <br>
+                    동물등록제는 2014년 1월 1일부터 의무 시행중입니다.
+                    <br>
+                    <br>
+                    등록대상동물의 소유자는 동물의 보호와 유실·유기 방지 등을 위하여 가까운 시·군·구청에 동물등록을 해야 합니다.
+                    <br>
+                    <br>
+                    등록 신청 시, 관할 지자체(시·군·구)는 동물보호관리시스템(www.animal.go.kr)에 등록동물과 소유자의 정보를 등록하여 관리합니다.
+                    <br>
+                    <br>
+                    다만, 등록대상동물이 맹견이 아닌 경우로서 도서 또는 동물등록 업무를 대행하게 할 수 있는 자가 없는 읍·면 중 시·도의 조례로 정하는 지역(동물보호법 제12조, 동 시행규칙 제7조)에서는 소유자의 선택에 따라 등록하지 않을 수 있습니다.
+                    <br>
+                    <br>
+                    등록하지 않을 경우 100만원 이하의 과태료가 부과됩니다.
+                </p>
+                <p style="color: grey; padding-left: 20px;">※ 등록대상동물 : 주택·준주택에서 기르거나 그 외의 장소에서 반려 목적으로 기르는 월령 2개월 이상인 개</p>
+            </div>
+            <div>
+                <br>
+                <br>
+                <h3 style="font-size: 2.2rem;">동물 등록 방법</h3>
+                <br>
+                <ul class="how-to-registrate">
+                    <li>내장형 무선식별장치 개체 삽입</li>
+                    <li>외장형 무선식별장치 개체 삽입</li>
+                    <li>등록 인식표 부착</li>
+                </ul>
+            </div>
+            <div>
+                <br>
+                <br>
+                <h3 style="font-size: 2.2rem;">동물 등록을 해야 하는 이유?</h3>
+                <br>
+                <p style="padding-left: 20px;">반려동물을 잃어버렸을 때 장착된 무선식별장치의 동물등록번호를 통해 소유자를 쉽게 찾을 수 있습니다.</p>
+            </div>
+            <div class="notification-container">
+                <br>
+                <h3 class="notification-title" style="font-size: 2.2rem;">변경 신고를 해야 하는 경우</h3>
+                <br>
+                <p class="reg-box" style="padding-left: 20px;">10일 이내</p>
+                <ul class="notification-list">
+                    <li class="notification-item">동물등록을 잃어버린 경우</li>
+                </ul>
+                <p class="reg-box" style="padding-left: 20px;">30일 이내</p>
+                <ul class="notification-list">
+                    <li class="notification-item">소유자가 변경된 경우</li>
+                    <li class="notification-item">소유자의 성명/주소/전화번호가 변경된 경우</li>
+                    <li class="notification-item">등록동물이 죽은 경우</li>
+                    <li class="notification-item">잃어버린 동물을 다시 찾은 경우</li>
+                    <li class="notification-item">외장형 목걸이 분실, 파손으로 재발급이 필요한 경우</li>
+                    <li class="notification-item" style="color: grey;">※ 시군구청에 신고, 또는 정부24, 국가동물보호관리시스템에서 변경할 수 있습니다.</li>
+                </ul>
+            </div>
+            
+            <div>
+                <br>
+                <br>
+                <h3 style="font-size: 2.2rem;">개와 함께 외출할 때!</h3>
+                <br>
+                <p style="padding-left: 20px;">소유자의 성명, 전화번호, 동물등록번호가 표시된 인식표를 착용시켜 주세요.</p>
+            </div>
+        </ul>
+    </div>
+
+    <div id="transportation">
+        <div class="headline">
+            <div class="img type-4"></div>
+        </div>
+        <br>
+        <h2>반려동물과 안전하게 여행하기</h2>
+        <div class="trans-container">
+            
+                <ul class="trans-means">
+                    <li class="box" id="trans-means-1">
+                        <h3 class="trans" style="font-size: 2rem;">🚗 자차</h3>
+                        <div id="trans-means-1-inform">
+                            <p>차를 직접 운전해서 반려동물과 이동할 경우 안전운전을 위해 반려동물을 안은 상태로 운전해서는 안 됩니다</p>
+                            <p>또한, 차에 함께 타는 반려동물이 운전에 지장을 주지 않도록 반드시 이동용 가방이나 케이지를 준비해야 합니다</p>
+                            <p class="grey">규제「도로교통법」 제39조제5항 참조</p>
+                        
+                        </div>
+                    </li>
+                    <li class="box" id="trans-means-2">
+                        <h3 class="trans" style="font-size: 2rem;">🚌 시내버스고속버스/시외버스</h3>
+                        <div id="trans-means-2-inform">
+                            <p>허용중량 및 용적규격을 초과하지 않고 반려동물 전용 운반상자를 갖춘 경우에는 탑승을 허용하고 있습니다. 따라서 이용하려는 시내버스의 운송회사에 미리 반려동물의 탑승 가능 여부를 알아보시는 것이 좋습니다</p>
+                            
+                            <p class="grey">규제「여객자동차 운수사업법」 제9조, 「서울특별시 시내버스 운송사업 약관」(서울시 버스정책과-3574호, 2023. 2. 3. 개정·시행) 제10조제3호 및 제17조 참조</p>
+
+                            <p class="grey">「여객자동차 운수사업법」 제9조, 「고속버스 운송사업 운송약관」(2016. 3. 9. 시행) 제22조, 제25조제3호 및 「경기도 시외버스 운송사업 운송약관」(2020. 5. 26. 개정) 제22조제3호 참조</p>
+                        </div>
+                    </li>
+                    <li class="box" id="trans-means-3">
+                        <h3 class="trans" style="font-size: 2rem;">🚃 전철</h3>
+                        <div id="trans-means-3-inform">
+                            <p>반려동물과 함께 전철에 탑승하려면 반려동물을 이동장비에 넣어 보이지 않게 하고, 불쾌한 냄새가 발생하지 않게 하는 등 다른 탑승객에게 불편을 줄 염려가 없도록 안전조치를 취한 후 탑승해야 합니다</p>
+                            <p class="grey">「도시철도법」 제32조, 「광역철도 여객운송 약관」(제2023-40호, 2023. 10. 6. 개정, 2023. 10. 7. 시행) 제31조제2호, 제32조제1항 및 「서울교통공사 여객운송약관」(2023-제438호, 2023. 10. 7. 개정·시행) 제34조제1항제4호 참조</p>
+                        </div>
+                    </li>
+                    <li class="box" id="trans-means-4">
+                        <h3 class="trans" style="font-size: 2rem;">🚈 기차</h3>
+                        <div id="trans-means-4-inform">
+                            <p>반려동물과 함께 기차에 탑승하려면 ① 반려동물(이동장비를 포함)의 크기가 좌석 또는 통로를 차지하지 않는 범위 이내로 제한되며, ② 다른 사람에게 위해나 불편을 끼칠 염려가 없는 반려동물 전용가방 등에 넣어 외부로 노출되지 않게 하고, 광견병 예방접종 등 필요한 예방접종을 한 경우 등 안전조치를 취한 후 탑승해야 합니다</p>
+                            <p class="grey"> 제47조제1항제7호, 「철도안전법 시행규칙」 제80조제1호 및 「한국철도공사 여객운송약관」(제2019-026호, 2019. 7. 5. 개정, 2019. 7. 24. 시행) 제22조제1항제2호 참조</p>
+                            <p>이를 위반하여 안전조치를 하지 않은 반려동물과 함께 기차에 탑승하여 탑승객에게 위해를 끼치는 경우에는 기차에서 퇴거 조치를 받거나 50만원 이하의 과태료가 부과됩니다</p>
+                            <p class="grey"> 제82조제5항제2호 참조</p>
+                        </div>
+                    </li>
+                    <li class="box" id="trans-means-5">
+                        <h3 class="trans" style="font-size: 2rem;">✈️ 비행기</h3>
+                        <div id="trans-means-5-inform">
+                            <p>반려동물의 비행기 탑승 가능 여부는 항공사마다 운송약관과 영업지침에 따라 차이가 있습니다.</p> <p>따라서 반려동물과 함께 비행기를 이용하려면 해당 항공사에 연락해서 미리 상담한 후 반려동물 수하물서비스를 신청하는 것이 좋습니다</p><p class="grey"> 제62조제1항 참조</p>
+                                ※ 반려견 또는 반려묘와 해외여행을 위한 검역절차 관련 정보는 농림축산검역본부 홈페이지(www.qia.go.kr)-동물방역-동물축산물검역-개고양이 검역절차에서 확인 할 수 있습니다.</p>
+                        </div>
+                    </li>
+                    <li class="box" id="trans-means-6">
+                        <h3 class="trans" style="font-size: 2rem;">🚕 펫택시</h3>
+                        <div div id="trans-means-6-inform">
+                            <p>반려동물 전용 펫택시는 제주를 제외한 서울 및 수도권 지역에서
+                            거리 관계 없이 이용이 가능합니다.</p>
+                            <p>택시의 경우 기사님에 따라 탑승 거부를 하는 경우도 있으나 펫택시에 비해
+                            가격이 저렴하고 사고가 났을 경우 보험처리가 수월합니다.
+                            (현재 펫택시는 업체마다 조금씩 차이가 있음)</p>
+                            <p>펫택시는 대형견도 탑승이 가능하며, 강아지가 멀미하거나
+                            안정이 필요할 경우 케이지에 넣지 않고 주인이 안고 탑승할 수 있습니다.</p>
+                            <p>가격과 보험, 반려동물의 성향을 잘 고려하여 택시를 선택해보세요.</p>
+                            
+                        </div>
+                    </li>
+                </ul>
+                <ul class="airplane-info">
+                    <p>항공사별 반려동물 동반 가이드</p>
+                    <li class="airplane"><a href="https://www.koreanair.com/kr/ko/airport/assistance/travel-with-pet/checklist">대한 항공</a></li>
+                    <li class="airplane"><a href="https://flyasiana.com/C/KR/KO/contents/traveling-with-pets">아시아나 항공</a></li>
+                    <li class="airplane"><a href="https://www.jejuair.net/ko/linkService/help/main.do">제주 항공</a></li>
+                    <li class="airplane"><a href="https://www.twayair.com/app/serviceInfo/contents/1070">티웨이 항공</a></li>
+                    <li class="airplane"><a href="https://help.jinair.com/hc/ko/sections/4409095501337-%EB%B0%98%EB%A0%A4%EB%8F%99%EB%AC%BC%EA%B3%BC-%EC%97%AC%ED%96%89%ED%95%98%EB%8A%94-%EA%B3%A0%EA%B0%9D">진에어</a></li>
+                    <li class="airplane"><a href="https://flyairseoul.com/CW/ko/animal.do">에어서울</a></li>
+                </ul>
+            
+        </div>
+    </div>
+
+    <div id="checklist">
+        <div class="headline">
+            <div class="img type-5"></div>
+        </div>
+        <br>
+        <h2>반려동물과 함께 여행하려면 무엇이 필요할까?</h2>
+        <br>
+        <div class="box">
+            <input id="chk1" type="checkbox">
+            <label for="chk1">사료/간식/밥그릇/물그릇/휴대용 물통</label>
+            <input id="chk2" type="checkbox">
+            <label for="chk2">반려동물 수첩(접종내역서)</label>
+            <input id="chk3" type="checkbox">
+            <label for="chk3">위생용품(배변패드/배변봉투/매너벨트/물티슈)</label>
+            <input id="chk4" type="checkbox">
+            <label for="chk4">이동장</label>
+            <input id="chk5" type="checkbox">
+            <label for="chk5">장난감</label>
+            <input id="chk6" type="checkbox">
+            <label for="chk6">목줄/리드줄</label>
+            <input id="chk7" type="checkbox">
+            <label for="chk7">* 입마개</label>
+            <br>
+            <div class="chk-info">
+                <p>개 입마개 견종 (5대 맹견)</p>
+                <p>도사견, 핏불 테리어, 아메리칸 스태퍼드셔 테리어, 스태퍼드셔 불테리어, 로트와일러</p>
+                <p>※ 맹견으로 지정된 견종이 아니더라도 기질평가 후 맹견으로 지정되면 입마개 착용과 책임 보험 가입이 강제된다.</p>
+            </div>
+            <br>
+            <br>
+            <p style="background-color: yellow; margin: auto;">이외에도 방문하기로 한 장소들의 반려견 동반 필수요건들을 꼼꼼하게 확인해보세요</p>
+        </div>
+    </div>
+    
+    </div>
+</div>        
+    <script src="\static\function.js"></script>  
+    <script>
+        function initializePage() {
+            let registration = document.getElementById('registration');
+            let transportation = document.getElementById('transportation');
+            let checklist = document.getElementById('checklist');
+            registration.classList.add('show');
+            transportation.classList.remove('show');
+            checklist.classList.remove('show');
+        }
+        
+        let inform1 = document.getElementById('inform-1');
+        let inform2 = document.getElementById('inform-2');
+        let inform3 = document.getElementById('inform-3');
+        let registration = document.getElementById('registration');
+        let transportation = document.getElementById('transportation');
+        let checklist = document.getElementById('checklist');
+
+        inform1.addEventListener('click', () => {
+            inform1.style.backgroundColor = 'aliceblue';
+            inform2.style.backgroundColor = 'white';
+            inform3.style.backgroundColor = 'white';
+            transportation.classList.remove('show');
+            checklist.classList.remove('show');
+            registration.classList.add('show');
+        });
+
+        inform2.addEventListener('click', () => {            
+            inform2.style.backgroundColor = 'aliceblue';
+            inform3.style.backgroundColor = 'white';
+            inform1.style.backgroundColor = 'white';
+            registration.classList.remove('show');
+            checklist.classList.remove('show');
+            transportation.classList.add('show');
+        }); 
+
+        inform3.addEventListener('click', () => {            
+            inform2.style.backgroundColor = 'white';
+            inform1.style.backgroundColor = 'white';
+            inform3.style.backgroundColor = 'aliceblue';
+            registration.classList.remove('show');
+            transportation.classList.remove('show');
+            checklist.classList.add('show');
+        }); 
+    </script>
+</body>
+</html>

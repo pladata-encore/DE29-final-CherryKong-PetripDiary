@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>글 작성</title>
+    <link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/static/board.css">
+</head>
+<body onload="initializePage()">
+    {{>fragments/header}}
+    <div class="container">
+        <form id="postForm" action="findPetSave" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <label for="title">제목</label>
+            <input type="text" id="title1" name="title" maxlength="30" required>
+            
+            <div class="form-grid">
+                <div class="form-left">
+                    <label for="petName">강아지 이름</label>
+                    <input type="text" id="petName" name="petName" maxlength="30" required>
+                    
+                    <label for="petBreed">강아지 종</label>
+                    <input type="text" id="petBreed" name="petBreed" maxlength="30" required>
+                    
+                    <label for="petSex">강아지 성별</label>
+                    <input type="text" id="petSex" name="petSex" maxlength="30" required>
+                    
+                    <label for="petAge">강아지 나이</label>
+                    <input type="text" id="petAge" name="petAge" maxlength="30" required>
+                    
+                    <label for="lostPlace">실종 장소</label>
+                    <input type="text" id="lostPlace" name="lostPlace" maxlength="30" required>
+                    
+                    <label for="lostTime">실종 일시</label>
+                    <input type="text" id="lostTime" name="lostTime" maxlength="30" required>
+                    
+                    <label for="contact">주인 연락처</label>
+                    <input type="text" id="contact" name="contact" maxlength="30" required>
+
+                </div> 
+
+            <div class="form-right">
+                <label for="text">내용</label>
+                <textarea id="text" name="text" required></textarea>
+            </div>
+        </div>
+
+            <label for="dogphoto">강아지 사진1 (대표사진, 필수입력)</label>
+            <input type="file" id="dogphoto" name="dogphoto" required onchange="previewImage(event, 'preview1')">
+            <div id="preview1" class="preview-images"></div>
+
+            <label for="dogphoto2">강아지 사진2</label>
+            <input type="file" id="dogphoto2" name="dogphoto2" onchange="previewImage(event, 'preview2')">
+            <div id="preview2" class="preview-images"></div>
+
+            <label for="dogphoto3">강아지 사진3</label>
+            <input type="file" id="dogphoto3" name="dogphoto3" onchange="previewImage(event, 'preview3')">
+            <div id="preview3" class="preview-images"></div>
+
+            <label for="dogphoto4">강아지 사진4</label>
+            <input type="file" id="dogphoto4" name="dogphoto4" onchange="previewImage(event, 'preview4')">
+            <div id="preview4" class="preview-images"></div>
+            
+            <button type="submit" class="button">작성하기</button>
+        </form>
+    </div>
+
+    <script>
+        function previewImage(event, previewId) {
+            var files = event.target.files;
+            var preview = document.getElementById(previewId);
+            preview.innerHTML = '';
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var container = document.createElement('div');
+                    container.classList.add('image-container');
+
+                    var img = document.createElement('img');
+                    img.src = e.target.result;
+                    container.appendChild(img);
+
+                    var removeButton = document.createElement('button');
+                    removeButton.classList.add('remove-button');
+                    removeButton.innerHTML = '&times;';
+                    removeButton.onclick = function() {
+                        container.remove();
+                        event.target.value = '';
+                    };
+                    container.appendChild(removeButton);
+
+                    preview.appendChild(container);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function validateForm() {
+            var isValid = true;
+
+            var petName = document.getElementById('petName').value;
+            if (petName.length > 30) {
+                document.getElementById('petNameError').textContent = '최대 30글자까지 입력 가능합니다.';
+                isValid = false;
+            } else {
+                document.getElementById('petNameError').textContent = '';
+            }
+
+            var petBreed = document.getElementById('petBreed').value;
+            if (petBreed.length > 30) {
+                document.getElementById('petBreedError').textContent = '최대 30글자까지 입력 가능합니다.';
+                isValid = false;
+            } else {
+                document.getElementById('petBreedError').textContent = '';
+            }
+
+            var petSex = document.getElementById('petSex').value;
+            if (petSex.length > 30) {
+                document.getElementById('petSexError').textContent = '최대 30글자까지 입력 가능합니다.';
+                isValid = false;
+            } else {
+                document.getElementById('petSexError').textContent = '';
+            }
+
+            var petAge = document.getElementById('petAge').value;
+            if (petAge.length > 30) {
+                document.getElementById('petAgeError').textContent = '최대 30글자까지 입력 가능합니다.';
+                isValid = false;
+            } else {
+                document.getElementById('petAgeError').textContent = '';
+            }
+
+            var lostPlace = document.getElementById('lostPlace').value;
+            if (lostPlace.length > 30) {
+                document.getElementById('lostPlaceError').textContent = '최대 30글자까지 입력 가능합니다.';
+                isValid = false;
+            } else {
+                document.getElementById('lostPlaceError').textContent = '';
+            }
+
+            var lostTime = document.getElementById('lostTime').value;
+            if (lostTime.length > 30) {
+                document.getElementById('lostTimeError').textContent = '최대 30글자까지 입력 가능합니다.';
+                isValid = false;
+            } else {
+                document.getElementById('lostTimeError').textContent = '';
+            }
+
+            var contact = document.getElementById('contact').value;
+            if (contact.length > 30) {
+                document.getElementById('contactError').textContent = '최대 30글자까지 입력 가능합니다.';
+                isValid = false;
+            } else {
+                document.getElementById('contactError').textContent = '';
+            }
+
+            return isValid;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,366 @@
+.box {
+    display: flex;
+    flex-direction: column; 
+    margin-top: 20px;
+}
+
+.box input[type="checkbox"] {
+    display: none;
+    margin-right: 10px;
+}
+.box label {
+    font-size: 25px;
+    position: relative;
+    padding-left: 40px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    user-select: none;
+}
+.box label::before {
+    content: "✓ ";
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #333;
+    border-radius: 4px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    color: transparent;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+.box input[type="checkbox"]:checked + label::before {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+    color: #fff;
+}
+.box label:hover::before {
+    border-color: #888;
+}
+
+.notification-title {
+    font-size: 2rem;
+}
+
+.reg-box {
+    padding: 7px 20px 5px 20px;
+    background-color: #B6B78B;
+    border-radius: 50px;
+    color: #fff;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.notification-list {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+.notification-item {
+    padding-left: 15px;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+
+
+.chk-info {
+    border: 1px solid #5c5b5b85;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #fff;
+    margin-top: 20px;
+}
+
+.chk-info p {
+    margin: 0;
+    padding: 5px 0;
+}
+
+
+.container {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'LeeSeoyun';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/LeeSeoyun.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'LeeSeoyun','Pretendard-Regular', Arial, sans-serif;
+    color: #333;
+}
+
+h2 {
+    font-weight: normal;
+    font-size: 2rem;
+    text-align: center;
+}
+
+h3.trans {
+    padding: 7px 20px 5px 20px;
+    background-color: #B6B78B;
+    border-radius: 50px;
+    color: #fff;
+}
+
+.reg-box {
+    padding: 7px 20px 5px 20px;
+    background-color: #B6B78B;
+    border-radius: 50px;
+    color: #fff;
+    display: inline-block;
+}
+
+.inform .trans{
+    font-size: 2rem;
+}
+
+p {
+    font-size: 1.2rem;
+}
+
+#inform-title h2 {
+    font-size: 3rem;
+    color: white;
+    margin: 0;
+    line-height: 250px;
+    background-color: #130058;
+}
+
+.inform {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    position: relative;
+}
+
+.inform .box {
+    font-size: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    flex: 1;
+    line-height: 50px;
+}
+
+#registration, #transportation, #checklist {
+    text-align: left;
+    display: none;
+    padding: 80px;
+    background-color: #fff;
+    margin: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+ul.reg-inform, ul.how-to-registrate, .trans-means {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul.reg-inform li, ul.how-to-registrate li, .trans-means li {
+    margin: 20px 0;
+}
+
+ul.how-to-registrate {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+ul.how-to-registrate li, .trans-means li {
+    list-style: none;
+    text-align: center;
+    font-size: 1.2rem;
+    flex: 1;
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid #a67c52;
+    border-radius: 10px;
+    background-color: #fafafa;
+    transition: transform 0.3s;
+}
+
+ul.how-to-registrate li:hover, .trans-means li:hover {
+    transform: scale(1.05);
+}
+
+
+#registration h3, #transportation h2, #checklist h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #614124;
+}
+
+#registration p, .trans-means div, .trans-means p {
+    text-align: left;
+    line-height: 1.6;
+    font-size: 1.3rem;
+}
+
+.show {
+    display: block;
+}
+
+#registration.show, #transportation.show, #checklist.show {
+    display: block;
+    cursor: default;
+}
+
+.headline .img.type-3 {
+    background-image: url('https://pet-profileimage-bucket.s3.ap-northeast-2.amazonaws.com/puppy-5124947_1280.jpg');
+    background-size: cover;
+    width: 100%; 
+    height: 400px;
+}
+
+.headline .img.type-4 {
+    background-position: 50% 35%;
+    background-image: url('https://pet-profileimage-bucket.s3.ap-northeast-2.amazonaws.com/pexels-valeriya-9545431.jpg');
+    background-size: cover;
+    width: 100%;
+    height: 400px;
+}
+
+.headline .img.type-5 {
+    background-position: 50% 60%;
+    background-image: url('https://pet-profileimage-bucket.s3.ap-northeast-2.amazonaws.com/pexels-mnannapaneni-14725404.jpg');
+    background-size: cover;
+    width: 100%;
+    height: 400px;
+}
+
+
+.headline .img {
+    width: 100%;
+    height: 400px;
+    border-radius: 50px 50px 0 0;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.headline .copy.bgcolor-3 {
+    background-color: #614124;
+}
+
+.headline .copy {
+    width: calc(100% - 80px);
+    margin: 0 auto;
+    padding: 40px 25px;
+    border-radius: 40px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    top: -60px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.headline .copy:hover {
+    transform: translateY(-5px);
+}
+
+.headline .copy strong {
+    color: #fff;
+    font-size: 2rem;
+    letter-spacing: -.3px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.headline .copy p {
+    color: #fff;
+    text-align: center;
+    line-height: 1.7;
+}
+
+.reg-inform {
+    padding: 20px;
+}
+
+.reg-inform h3 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.reg-inform ul.how-to-registrate {
+    list-style-type: circle;
+    margin-left: 20px;
+}
+
+@media (max-width: 768px) {
+    .headline .copy {
+        width: calc(100% - 40px);
+        padding: 20px 15px;
+        top: -40px;
+    }
+}
+
+.reg-inform h3::before {
+    content: "🐕     ";
+}
+
+.box {
+    padding: 20px;
+}
+@media screen and (min-width: 1200px) {
+    .trans-means {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .trans-means {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+}
+
+.grey {
+    color: grey;
+}
+
+li.airplane {
+    padding-top: 5px;
+    font-size: 1.5rem;
+    list-style: none;
+}
+
+li.airplane ::before {
+    content: "✈️ ";
+}
+.airplane-info p {
+    padding-top: 50px;
+    font-size: 2rem; 
+    font-weight:bold;
+    color: #614124;
+}
+.airplane-info a {
+    text-decoration-line: none; 
+    color: black;
+}
