@@ -69,11 +69,6 @@ public class MainController {
         return "recTravelPlan";
     }
 
-    @GetMapping("/recTravelPlanImage")
-    public String recTravelPlanImage() {
-        return "recTravelPlanImage";
-    }
-
     @GetMapping("/travelPlan")
     public String travelPlan() {
         return "travelPlan";
