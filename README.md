@@ -1,8 +1,20 @@
 <div align="center">
   <img src="./img/1%EB%B2%88.png" width="100%">
   <h4>⭐🍒CHERRY-KONG🫛⭐</h4>
+  <p>사이트 주소 : https://www.petwme.com </p>
 
 </div>
+
+---
+
+<h2>팀원 구성 및 역할</h2>
+
+| 팀원 | 역할|
+| --- | --- |
+| 구성준 | 추천 모델, FastAPI 서버, SpringBoot(메인 페이지) 구현 |
+| 최윤석 | 데이터 수집 및 전처리, SpringBoot(커뮤니티 페이지) 구현 |
+| 송채연 | SpringBoot(마이페이지) 구현, UI/UX |
+| 변수빈 | SpringBoot(여행 코스 페이지 구현 - Kakao Map API 이용), CI/CD
 
 ---
 
