@@ -16,7 +16,6 @@
 | 송채연 | SpringBoot(마이페이지) 구현, UI/UX |
 | 변수빈 | SpringBoot(여행 코스 페이지 구현 - Kakao Map API 이용), CI/CD
 
----
 
 <h2>기획 배경</h2>
 
